@@ -18,18 +18,7 @@ Falling.Player = _.inherits(Falling.Drawable, {
 		}
 
 		this.constructor.__super__.update.call(this, dT, game);
-
-		//if(this.state.x - 10 < 0) {
-			//this.state.x = 11;
-			//this.state.vX = 0;
-		//}
-
-		//if(this.state.x + 10 >= game.width) {
-			//this.state.x = game.width - 11;
-			//this.state.vX = 0;
-		//}
 	},
-	logged:0,
 	'checkCollision': function(obst) {
 		if(obst.type == 'obstacle' && Math.abs(this.state.y - obst.state.y) <= 11) {
 			var segCollisions = obst.segments.map(function(seg) {
@@ -40,15 +29,9 @@ Falling.Player = _.inherits(Falling.Drawable, {
 		}
 
 		if (obst.type == 'wall') {
-			//if (this.logged < 4) {
-				//console.log(obst);
-				//this.logged++;
-			//}
 			if (obst.state.direction == 'vertical' && Math.abs(this.state.x - obst.state.x) < 10) {
-				console.log('h');
 				return true;
 			} else if (obst.state.direction == 'horizontal' && Math.abs(this.state.y - obst.state.y) < 10) {
-				console.log('w');
 				return true;
 			}
 		}

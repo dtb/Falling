@@ -72,12 +72,32 @@
 			});
 			this.objects.push(this.player);	
 
+			this.walls = [
+				new Falling.Wall({
+					x: 0,
+					direction: 'vertical'
+				}),
+				new Falling.Wall({
+					y: 0,
+					direction: 'horizontal',
+					isTop: true
+				}),
+				new Falling.Wall({
+					x: this.width,
+					direction: 'vertical'
+				}),
+				new Falling.Wall({
+					y: this.height,
+					direction: 'horizontal',
+				}),
+			];
+
 			this.updateObstacles();
 
 		},
 		'initBackground': function() {
 			this.background = new Falling.Background({
-				vY:Falling.gameSpeed,
+				vY:Falling.gameSpeed*2,
 				y: this.height
 			});
 			this.objects.push(this.background);
@@ -93,7 +113,13 @@
 			this.updateObstacles();
 			this.obstacles.forEach(function(obst) {
 				if(this.player.checkCollision(obst)) {
-					this.player.handleCollision(obst);
+					this.player.handleCollision(obst, this);
+				}
+			}, this);
+
+			this.walls.forEach(function(obst) {
+				if(this.player.checkCollision(obst)) {
+					this.player.handleCollision(obst, this);
 				}
 			}, this);
 
