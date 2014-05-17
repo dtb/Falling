@@ -1,25 +1,29 @@
-Falling.Player = _.inherits(Falling.Drawable, {
-	'acceleration': .005,
-	'maxSpeed':.8,
-	'hasGravity': true,
-	'update': function(dT, game) {
+var util = require('./util'),
+	Drawable = require('./Drawable.js');
+
+
+var Player = util.inherits(Drawable, {
+	acceleration: .006,
+	maxSpeed:.8,
+	hasGravity: true,
+	update: function(dT, game) {
 		if(game.inputManager.keyDown(game.inputManager.Keys.LEFT)) {
 			this.state.vX -= this.acceleration * dT;
 		} else if(game.inputManager.keyDown(game.inputManager.Keys.RIGHT)) {
 			this.state.vX += this.acceleration * dT;
 		} else if(Math.abs(this.state.vX) > 2 * this.acceleration * dT) {
-			this.state.vX -= _.sign(this.state.vX)  * 2 * this.acceleration * dT;
+			this.state.vX -= util.sign(this.state.vX)  * 2 * this.acceleration * dT;
 		} else {
 			this.state.vX = 0;
 		}
 		
 		if(Math.abs(this.state.vX) > this.maxSpeed) {
-			this.state.vX = _.sign(this.state.vX) * this.maxSpeed;
+			this.state.vX = util.sign(this.state.vX) * this.maxSpeed;
 		}
 
 		this.constructor.__super__.update.call(this, dT, game);
 	},
-	'checkCollision': function(obst) {
+	checkCollision: function(obst) {
 		if(obst.type == 'obstacle' && Math.abs(this.state.y - obst.state.y) <= 11) {
 			var segCollisions = obst.segments.map(function(seg) {
 				return this.state.x > seg.x && this.state.x < (seg.x + seg.width);
@@ -38,11 +42,11 @@ Falling.Player = _.inherits(Falling.Drawable, {
 
 		return false;
 	},
-	'handleCollision': function(obst, game) {
+	handleCollision: function(obst, game) {
 		if (obst.type == 'obstacle') {
 			this.stroke = 'red';
 			this.state.vY = obst.state.vY;
-			this.state.y = obst.state.y - 10;
+			this.state.y = obst.state.y - 11;
 		} else if (obst.type == 'wall') {
 			if (obst.state.direction == 'vertical') {
 				this.state.vX = 0;
@@ -58,3 +62,5 @@ Falling.Player = _.inherits(Falling.Drawable, {
 		}
 	}
 });
+
+module.exports = Player;

@@ -1,6 +1,10 @@
-Falling.Obstacle = _.inherits(Falling.Drawable, {
-	'segments': [],
-	'constructor': function(spec, game) {
+var util = require('./util.js'),
+	Drawable = require('./Drawable.js'),
+	_ = require('underscore')._;
+
+var Obstacle = util.inherits(Drawable, {
+	segments: [],
+	constructor: function(spec, game) {
 		this.state = _.extend( { }, this.state, _.pick(spec, ['y']), { vY: Falling.gameSpeed });
 
 		this.height = spec.height;
@@ -8,26 +12,26 @@ Falling.Obstacle = _.inherits(Falling.Drawable, {
 		this.segments = [];
 		if(spec.holePos < 80) {
 			this.segments.push({
-				'x': 80,
-				'width': game.width - 80
+				x: 80,
+				width: game.width - 80
 			});
 		} else if (spec.holePos > (game.width - 80)) {
 			this.segments.push({
-				'x': 0,
-				'width': game.width - 80
+				x: 0,
+				width: game.width - 80
 			});
 		} else {
 			this.segments.push({
-				'x': 0,
-				'width': spec.holePos
+				x: 0,
+				width: spec.holePos
 			});
 			this.segments.push({
-				'x': spec.holePos + 80,
-				'width': game.width - spec.holePos - 80
+				x: spec.holePos + 80,
+				width: game.width - spec.holePos - 80
 			});
 		}
 	},
-	'draw': function(dT, game) {
+	draw: function(dT, game) {
 		game.backbufferContext.beginPath();
 
 		this.segments.forEach(function(seg) {
@@ -40,5 +44,7 @@ Falling.Obstacle = _.inherits(Falling.Drawable, {
 
 		game.backbufferContext.fill();
 	},
-	'type': 'obstacle'
+	type: 'obstacle'
 });
+
+module.exports = Obstacle;

@@ -1,0 +1,14 @@
+{
+  "name": "Falling",
+  "dependencies": {
+    "underscore": "~1.6.0",
+    "gulp": "~3.6.2"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dtb/Falling.git"
+  },
+  "author": "",
+  "homepage": "https://github.com/dtb/Falling"
+}

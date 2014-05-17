@@ -1,4 +1,6 @@
-_.mixin({
+var _ = require('underscore')._; 
+
+module.exports = {
 	'randBetween': function(min, max) {
 		return Math.floor(Math.random() * (max - min + 1)) + min;
 	},
@@ -51,4 +53,5 @@ _.mixin({
 
 		return child;
 	}
-});
+};
+

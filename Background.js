@@ -1,4 +1,8 @@
-Falling.Background = _.inherits(Falling.Drawable, {
+var Drawable = require('./Drawable.js');
+var util = require('./util.js');
+var _ = require('underscore')._;
+
+var Background = util.inherits(Drawable, {
 	'image': null,
 	'ready': false,
 	'constructor': function(initialState) {
@@ -27,3 +31,5 @@ Falling.Background = _.inherits(Falling.Drawable, {
 	}
 });
 
+
+module.exports = Background;

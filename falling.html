@@ -40,21 +40,13 @@
 			</div>
 			<button id="stop">  ◼ Stop</button>
 		</div>
-		<script src="http://documentcloud.github.com/underscore/underscore.js"> </script>
-		<script src="util.js"></script>
 		<script>
 			window.Falling = {
 				'gameSpeed': -.1,
 				'G': .005
 			};
 		</script>
-		<script src="Game.js"></script>
-		<script src="Drawable.js"></script>
-		<script src="InputManager.js"></script>
-		<script src="Background.js"></script>
-		<script src="Obstacle.js"></script>
-		<script src="Player.js"></script>
-		<script src="Wall.js"></script>
+		<script src="bundle.js"></script>
 		<script>
 			(function() {
 				window.requestAnimationFrame = window.requestAnimationFrame ||
@@ -63,11 +55,11 @@
 					window.msRequestAnimationFrame || 
 					function(func) { window.setTimeout(func, 1000/60); } 
 
-				Falling.game = new Falling.Game('c');
-				Falling.game.loop();
+				var game = new Game('c');
+				game.loop();
 
 				document.getElementById('stop').addEventListener('click', function() {
-					Falling.game.stop = true;
+					game.stop = true;
 				});
 
 			})();
