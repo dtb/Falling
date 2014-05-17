@@ -2,9 +2,12 @@
   "name": "Falling",
   "dependencies": {
     "underscore": "~1.6.0",
+  },
+  "devDependencies": {
+    "vinyl-source-stream": "~0.1.1",
+    "browserify": "~4.1.5",
     "gulp": "~3.6.2"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git://github.com/dtb/Falling.git"
