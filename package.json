@@ -1,7 +1,7 @@
 {
   "name": "Falling",
   "dependencies": {
-    "underscore": "~1.6.0",
+    "underscore": "~1.6.0"
   },
   "devDependencies": {
     "vinyl-source-stream": "~0.1.1",
