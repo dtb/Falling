@@ -32,7 +32,11 @@ var Obstacle = util.inherits(Drawable, {
 		}
 	},
 	draw: function(dT, game) {
+		game.backbufferContext.save();
+
 		game.backbufferContext.beginPath();
+
+		game.backbufferContext.fillStyle = "#FF0085";
 
 		this.segments.forEach(function(seg) {
 			game.backbufferContext.moveTo(seg.x, this.state.y);
@@ -43,6 +47,8 @@ var Obstacle = util.inherits(Drawable, {
 		}, this);
 
 		game.backbufferContext.fill();
+
+		game.backbufferContext.restore();
 	},
 	type: 'obstacle'
 });

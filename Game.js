@@ -140,7 +140,12 @@ var Game = util.inherits(function() { }, {
 	},
 	draw: function(dT) {
 
-		this.backbufferContext.clearRect(0, 0, this.width, this.height);
+		this.backbufferContext.save();
+
+		this.backbufferContext.fillStyle = 'black';
+		this.backbufferContext.fillRect(0,0,this.width, this.height);
+
+		this.backbufferContext.restore();
 
 		_(this.objects).invoke('draw', dT, this);
 		_(this.obstacles).invoke('draw', dT, this);
@@ -166,7 +171,6 @@ var Game = util.inherits(function() { }, {
 		this.backbufferContext = this.backbufferCanvas.getContext('2d');
 		this.canvas.style.visibility = 'visible';
 		this.backbufferCanvas.style.visibility = 'hidden';
-		this.backbufferContext.clearRect(0,0,this.width, this.height);
 	},
 	debug: function(obj) {
 		if(util.isPrimitive(obj)) {

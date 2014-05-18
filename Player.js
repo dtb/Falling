@@ -44,7 +44,6 @@ var Player = util.inherits(Drawable, {
 	},
 	handleCollision: function(obst, game) {
 		if (obst.type == 'obstacle') {
-			this.stroke = 'red';
 			this.state.vY = obst.state.vY;
 			this.state.y = obst.state.y - 11;
 		} else if (obst.type == 'wall') {
@@ -60,6 +59,18 @@ var Player = util.inherits(Drawable, {
 				}
 			}
 		}
+	},
+	draw: function(dT, game) {
+		game.backbufferContext.save();
+		game.backbufferContext.strokeStyle = "#47C600";
+
+		game.backbufferContext.beginPath(this.state.x, this.state.y);
+		game.backbufferContext.arc(this.state.x, this.state.y, 10, 0,  2 * Math.PI);
+
+		game.backbufferContext.stroke();
+		game.backbufferContext.restore();
+
+		game.backbufferContext.restore();
 	}
 });
 
