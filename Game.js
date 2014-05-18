@@ -23,9 +23,8 @@ var Game = util.inherits(function() { }, {
 	_debugLines: [],
 	player: null,
 	constructor: function(canvasId) {
-		this.canvii = document.getElementsByTagName('canvas');
-
-		this.swapsies();
+		this.canvas = this.backbufferCanvas = document.getElementById(canvasId);
+		this.context = this.backbufferContext = this.canvas.getContext('2d');
 
 		this.width = this.canvas.width;
 		this.height = this.canvas.height;
@@ -159,18 +158,6 @@ var Game = util.inherits(function() { }, {
 
 		this.debug(util.round(this.framerate, 3) + " fps");
 		this.drawDebug();
-		this.swapsies();
-	},
-	swapsies: function() {
-		this.canvas = this.canvii[this.canvIdx];
-		this.backbufferCanvas = this.canvii[1 - this.canvIdx];
-
-		this.canvIdx = 1 - this.canvIdx;
-
-		this.context = this.canvas.getContext('2d');
-		this.backbufferContext = this.backbufferCanvas.getContext('2d');
-		this.canvas.style.visibility = 'visible';
-		this.backbufferCanvas.style.visibility = 'hidden';
 	},
 	debug: function(obj) {
 		if(util.isPrimitive(obj)) {
