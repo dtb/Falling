@@ -3,7 +3,7 @@ var util = require('./util'),
 
 
 var Player = util.inherits(Drawable, {
-	acceleration: .006,
+	acceleration: .009,
 	maxSpeed:.8,
 	hasGravity: true,
 	update: function(dT, game) {
@@ -26,7 +26,8 @@ var Player = util.inherits(Drawable, {
 	checkCollision: function(obst) {
 		if(obst.type == 'obstacle' && Math.abs(this.state.y - obst.state.y) <= 11) {
 			var segCollisions = obst.segments.map(function(seg) {
-				return this.state.x > seg.x && this.state.x < (seg.x + seg.width);
+				return (this.state.x - 10) > seg.x && (this.state.x - 10) < (seg.x + seg.width) ||
+					(this.state.x + 10) > seg.x && (this.state.x + 10) < (seg.x + seg.width)
 			}, this);
 
 			return segCollisions.some(function(c) { return c; });
