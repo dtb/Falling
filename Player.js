@@ -16,27 +16,31 @@ var Player = util.inherits(Drawable, {
 		} else {
 			this.state.vX = 0;
 		}
+
 		
 		if(Math.abs(this.state.vX) > this.maxSpeed) {
 			this.state.vX = util.sign(this.state.vX) * this.maxSpeed;
 		}
 
+		this.rx = (1 + Math.abs(this.state.vX / this.maxSpeed) * .7) * 10;
+		this.ry = (1 - Math.abs(this.state.vX / this.maxSpeed) * .2) * 10;
+
 		this.constructor.__super__.update.call(this, dT, game);
 	},
 	checkCollision: function(obst) {
-		if(obst.type == 'obstacle' && Math.abs(this.state.y - obst.state.y) <= 11) {
+		if(obst.type == 'obstacle' && Math.abs(this.state.y - obst.state.y) <= (this.ry + 1)) {
 			var segCollisions = obst.segments.map(function(seg) {
-				return (this.state.x - 10) > seg.x && (this.state.x - 10) < (seg.x + seg.width) ||
-					(this.state.x + 10) > seg.x && (this.state.x + 10) < (seg.x + seg.width)
+				return (this.state.x - this.rx) > seg.x && (this.state.x - this.rx) < (seg.x + seg.width) ||
+					(this.state.x + this.rx) > seg.x && (this.state.x + this.rx) < (seg.x + seg.width)
 			}, this);
 
 			return segCollisions.some(function(c) { return c; });
 		}
 
 		if (obst.type == 'wall') {
-			if (obst.state.direction == 'vertical' && Math.abs(this.state.x - obst.state.x) < 10) {
+			if (obst.state.direction == 'vertical' && Math.abs(this.state.x - obst.state.x) < this.rx) {
 				return true;
-			} else if (obst.state.direction == 'horizontal' && Math.abs(this.state.y - obst.state.y) < 10) {
+			} else if (obst.state.direction == 'horizontal' && Math.abs(this.state.y - obst.state.y) < this.ry) {
 				return true;
 			}
 		}
@@ -46,17 +50,17 @@ var Player = util.inherits(Drawable, {
 	handleCollision: function(obst, game) {
 		if (obst.type == 'obstacle') {
 			this.state.vY = obst.state.vY;
-			this.state.y = obst.state.y - 11;
+			this.state.y = obst.state.y - (this.ry + 1);
 		} else if (obst.type == 'wall') {
 			if (obst.state.direction == 'vertical') {
 				this.state.vX = 0;
-				this.state.x = Math.abs(obst.state.x - 10);
+				this.state.x = Math.abs(obst.state.x - this.rx);
 			} else if (obst.state.direction == 'horizontal') {
 				if (obst.state.isTop) {
 					game.stop = true;
 				} else {
 					this.state.vY = 0;
-					this.state.y = Math.abs(obst.state.y - 10);
+					this.state.y = Math.abs(obst.state.y - this.ry);
 				}
 			}
 		}
@@ -65,8 +69,8 @@ var Player = util.inherits(Drawable, {
 		game.backbufferContext.save();
 		game.backbufferContext.strokeStyle = "#47C600";
 
-		game.backbufferContext.beginPath(this.state.x, this.state.y);
-		game.backbufferContext.arc(this.state.x, this.state.y, 10, 0,  2 * Math.PI);
+		game.backbufferContext.beginPath();
+		game.backbufferContext.ellipse(this.state.x, this.state.y, this.rx, this.ry, 0, 0, 2 * Math.PI, false);
 
 		game.backbufferContext.stroke();
 		game.backbufferContext.restore();
